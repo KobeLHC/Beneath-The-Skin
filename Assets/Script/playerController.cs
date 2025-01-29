@@ -12,9 +12,14 @@ public class PlayerController : MonoBehaviour
 
     public float runSpeed = 8.0f;
 
+    //Change Sprite
+    private SpriteRenderer spriteRenderer;
+    public Sprite newSprite;
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -22,6 +27,11 @@ public class PlayerController : MonoBehaviour
         // Gives a value between -1 and 1
         horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left | 1 is right
         vertical = Input.GetAxisRaw("Vertical"); // -1 is down | 1 is up
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            ChangePlayerSprite();
+        }
     }
 
     void FixedUpdate()
@@ -34,5 +44,17 @@ public class PlayerController : MonoBehaviour
         }
 
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+    }
+
+    public void ChangePlayerSprite()
+    {
+        if (spriteRenderer != null && newSprite != null)
+        {
+            spriteRenderer.sprite = newSprite;
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer or newSprite is not assigned!");
+        }
     }
 }
