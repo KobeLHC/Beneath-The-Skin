@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left | 1 is right
         vertical = Input.GetAxisRaw("Vertical"); // -1 is down | 1 is up
 
-        if(Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.C) == true)
         {
             ChangePlayerSprite();
         }
