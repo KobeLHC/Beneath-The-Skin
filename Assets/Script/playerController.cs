@@ -15,11 +15,24 @@ public class PlayerController : MonoBehaviour
     //Change Sprite
     private SpriteRenderer spriteRenderer;
     public Sprite newSprite;
+    public Sprite basicSprite;
+
+    //which shape to change
+    private bool sciOn;
+
+    //Animation
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        sciOn = false;
     }
 
     void Update()
@@ -28,9 +41,18 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left | 1 is right
         vertical = Input.GetAxisRaw("Vertical"); // -1 is down | 1 is up
 
+        //shape shift
         if(Input.GetKeyDown(KeyCode.C) == true)
         {
-            ChangePlayerSprite();
+            if (sciOn == true)
+            {
+                ChangePlayerSci();
+            }
+
+            else
+            {
+                Debug.Log("No collision yet");
+            }
         }
     }
 
@@ -46,15 +68,27 @@ public class PlayerController : MonoBehaviour
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 
-    public void ChangePlayerSprite()
+    public void ChangePlayerSci()
     {
-        if (spriteRenderer != null && newSprite != null)
+        if (anim.GetBool("changeSci") == false)
         {
             spriteRenderer.sprite = newSprite;
+            anim.SetBool("changeSci", true);
         }
+
         else
         {
-            Debug.LogWarning("SpriteRenderer or newSprite is not assigned!");
+            spriteRenderer.sprite = basicSprite;
+            anim.SetBool("changeSci", false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //control which sprite to change into
+        if(collision.gameObject.tag == "Sci")
+        {
+            sciOn = true;
         }
     }
 }
