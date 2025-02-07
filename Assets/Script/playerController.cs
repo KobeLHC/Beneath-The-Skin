@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float moveLimiter = 0.7f;
 
     public float runSpeed = 8.0f;
+    public int susLevel = 0;
 
     //Change Sprite
     private SpriteRenderer spriteRenderer;
@@ -66,6 +67,16 @@ public class PlayerController : MonoBehaviour
         }
 
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+    }
+
+    public void moreSus(int value)
+    {
+        susLevel += value;
+    }
+
+    public void lessSus(int value)
+    {
+        susLevel -= value;
     }
 
     public void ChangePlayerSci()
