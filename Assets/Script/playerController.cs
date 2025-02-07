@@ -15,11 +15,19 @@ public class PlayerController : MonoBehaviour
 
     //Change Sprite
     private SpriteRenderer spriteRenderer;
+    
+    //Scientist sprite
     public Sprite newSprite;
+
+    //Security sprite
+    public Sprite newSprite2;
+
+    //Player basic sprite
     public Sprite basicSprite;
 
     //which shape to change
     private bool sciOn;
+    private bool secOn;
 
     //Animation
     private Animator anim;
@@ -34,6 +42,7 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         sciOn = false;
+        secOn = false;
     }
 
     void Update()
@@ -48,6 +57,11 @@ public class PlayerController : MonoBehaviour
             if (sciOn == true)
             {
                 ChangePlayerSci();
+            }
+
+            else if(secOn == true)
+            {
+                ChangePlayerSec();
             }
 
             else
@@ -85,12 +99,33 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.sprite = newSprite;
             anim.SetBool("changeSci", true);
+            anim.SetBool("changeSec", false);
+            Debug.Log("changeSci true");
         }
 
         else
         {
             spriteRenderer.sprite = basicSprite;
             anim.SetBool("changeSci", false);
+            Debug.Log("changeSci false");
+        }
+    }
+
+    public void ChangePlayerSec()
+    {
+        if (anim.GetBool("changeSec") == false)
+        {
+            spriteRenderer.sprite = newSprite2;
+            anim.SetBool("changeSec", true);
+             anim.SetBool("changeSci", false);
+            Debug.Log("changeSec true");
+        }
+
+        else
+        {
+            spriteRenderer.sprite = basicSprite;
+            anim.SetBool("changeSec", false);
+            Debug.Log("changeS false");
         }
     }
 
@@ -100,6 +135,13 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.tag == "Sci")
         {
             sciOn = true;
+            secOn = false;
+        }
+
+         if(collision.gameObject.tag == "Sec")
+        {
+            secOn = true;
+            sciOn = false;
         }
     }
 }
